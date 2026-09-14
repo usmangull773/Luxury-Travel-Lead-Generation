@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tapestry Safari Growth Review</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+:root{
+  --bg:#F4EEE2; --surface:#FCF8F0; --surface-2:#EEE6D5; --raise:#FFFFFF;
+  --ink:#241C10; --muted:#6C6050; --faint:#8B7F6C;
+  --line:rgba(60,48,28,.14); --line-strong:rgba(60,48,28,.24);
+  --brass:#A8792A; --brass-ink:#8A6220; --brass-soft:rgba(168,121,42,.12); --on-brass:#FFFFFF;
+  --red:#BE3B2C; --red-soft:rgba(190,59,44,.10);
+  --green:#2E7D4F; --green-soft:rgba(46,125,79,.10);
+  --shadow:0 1px 2px rgba(40,30,15,.06),0 12px 32px rgba(40,30,15,.08);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#140F09; --surface:#1D1710; --surface-2:#251E14; --raise:#221B12;
+    --ink:#EFE7D8; --muted:#A99A82; --faint:#8B7C64;
+    --line:rgba(220,200,160,.13); --line-strong:rgba(220,200,160,.22);
+    --brass:#CBA34C; --brass-ink:#D8B665; --brass-soft:rgba(203,163,76,.14); --on-brass:#1B1409;
+    --red:#E9686D; --red-soft:rgba(233,104,109,.12);
+    --green:#59B87E; --green-soft:rgba(89,184,126,.12);
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px rgba(0,0,0,.45);
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#140F09; --surface:#1D1710; --surface-2:#251E14; --raise:#221B12;
+  --ink:#EFE7D8; --muted:#A99A82; --faint:#8B7C64;
+  --line:rgba(220,200,160,.13); --line-strong:rgba(220,200,160,.22);
+  --brass:#CBA34C; --brass-ink:#D8B665; --brass-soft:rgba(203,163,76,.14);
+  --red:#E9686D; --red-soft:rgba(233,104,109,.12);
+  --green:#59B87E; --green-soft:rgba(89,184,126,.12);
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 16px 40px rgba(0,0,0,.45);
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:"Hanken Grotesk",system-ui,-apple-system,Segoe UI,sans-serif;
+  font-size:16px; line-height:1.55; letter-spacing:-.005em;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1140px; margin:0 auto; padding-inline:24px}
+h1,h2,h3,.serif{font-family:"Fraunces",Georgia,serif; font-weight:500; letter-spacing:-.01em}
+.eyebrow{font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.18em; color:var(--brass)}
+strong,b{font-weight:700; color:var(--ink)}
+.neg{color:var(--red); font-weight:700}
+.pos{color:var(--green); font-weight:700}
+.tnum{font-variant-numeric:tabular-nums}
+
+/* Top bar */
+.topbar{position:sticky; top:0; z-index:20; background:color-mix(in srgb,var(--bg) 88%,transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex; align-items:center; justify-content:space-between; height:60px; gap:16px}
+.brand{display:flex; align-items:center; gap:12px; min-width:0}
+.brand .dot{width:9px; height:9px; border-radius:50%; background:var(--brass); flex:none; box-shadow:0 0 0 4px var(--brass-soft)}
+.brand .nm{font-family:"Fraunces",serif; font-size:15.5px; font-weight:600; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.brand .sub{font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--faint); border-left:1px solid var(--line-strong); padding-left:12px; white-space:nowrap}
+.themebtn{border:1px solid var(--line-strong); background:transparent; color:var(--muted); font:inherit; font-size:12.5px;
+  padding:6px 12px; border-radius:999px; cursor:pointer}
+.themebtn:hover{color:var(--ink); border-color:var(--brass)}
+
+/* Hero */
+.hero{padding-block:56px 40px; border-bottom:1px solid var(--line)}
+.hero-grid{display:grid; grid-template-columns:1.35fr .95fr; gap:44px; align-items:center}
+.hero .eyebrow{margin-bottom:18px}
+.hero h1{font-size:clamp(1.9rem,3.4vw,2.55rem); line-height:1.12; margin:0 0 18px; text-wrap:balance}
+.hero h1 .hl{color:var(--brass-ink)}
+.hero p.lede{font-size:1.06rem; color:var(--muted); margin:0; max-width:52ch}
+.hero p.lede b{color:var(--ink)}
+.tag-line{display:flex; gap:10px; flex-wrap:wrap; margin-top:26px}
+.tag{font-size:12.5px; padding:7px 13px; border-radius:999px; border:1px solid var(--line-strong); color:var(--muted)}
+.tag b{color:var(--ink); font-weight:600}
+
+/* Signal panel */
+.signals{background:var(--surface); border:1px solid var(--line); border-radius:16px; box-shadow:var(--shadow); overflow:hidden}
+.signals .head{padding:14px 18px; border-bottom:1px solid var(--line); display:flex; align-items:center; justify-content:space-between}
+.signals .head .t{font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.16em; color:var(--faint)}
+.sig{display:flex; align-items:flex-start; justify-content:space-between; gap:14px; padding:14px 18px; border-bottom:1px solid var(--line)}
+.sig:last-child{border-bottom:0}
+.sig .k{font-size:13.5px; color:var(--muted); max-width:58%}
+.sig .v{font-family:"Fraunces",serif; font-size:1.15rem; font-weight:600; text-align:right; white-space:nowrap}
+.sig .v.small{font-size:.98rem}
+
+/* Tabs: prominent segmented control, pinned at top */
+.tabnav{position:sticky; top:59px; z-index:15; background:color-mix(in srgb,var(--bg) 92%,transparent);
+  backdrop-filter:blur(10px); border-bottom:1px solid var(--line); padding-block:14px}
+.tabnav .wrap{display:flex; align-items:center; gap:14px}
+.tabnav .hint{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.16em; color:var(--faint); flex:none}
+.seg{display:flex; gap:4px; background:var(--surface-2); border:1px solid var(--line-strong); border-radius:999px; padding:5px; max-width:100%; overflow-x:auto; scrollbar-width:none}
+.seg::-webkit-scrollbar{display:none}
+.segbtn{appearance:none; display:inline-flex; align-items:center; gap:9px; border:0; background:transparent; color:var(--muted);
+  font:inherit; font-weight:600; font-size:14px; padding:10px 20px; border-radius:999px; cursor:pointer; white-space:nowrap; transition:color .15s,background .15s}
+.segbtn .no{font-family:"Fraunces",serif; font-size:12px; color:var(--faint); transition:color .15s}
+.segbtn:hover{color:var(--ink)}
+.segbtn[aria-selected="true"]{background:var(--brass); color:var(--on-brass); box-shadow:0 2px 10px var(--brass-soft)}
+.segbtn[aria-selected="true"] .no{color:var(--on-brass); opacity:.72}
+.segbtn:focus-visible{outline:2px solid var(--brass); outline-offset:3px}
+
+.panel{padding-block:48px 60px}
+.panel[hidden]{display:none}
+.sec-head{margin-bottom:30px; max-width:60ch}
+.sec-head .eyebrow{margin-bottom:12px}
+.sec-head h2{font-size:clamp(1.5rem,2.6vw,2rem); margin:0 0 10px; line-height:1.15}
+.sec-head p{margin:0; color:var(--muted); font-size:1.02rem}
+
+/* Leak cards */
+.leaks{display:grid; grid-template-columns:1fr 1fr; gap:18px}
+.leak{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:22px 22px 20px; box-shadow:var(--shadow);
+  display:flex; flex-direction:column; gap:12px; position:relative; overflow:hidden}
+.leak::before{content:""; position:absolute; left:0; top:0; bottom:0; width:3px; background:var(--red)}
+.leak.good::before{background:var(--green)}
+.leak .row1{display:flex; align-items:center; justify-content:space-between; gap:12px}
+.leak .no{font-family:"Fraunces",serif; font-size:14px; color:var(--faint)}
+.badge{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; padding:4px 10px; border-radius:999px;
+  background:var(--red-soft); color:var(--red)}
+.badge.good{background:var(--green-soft); color:var(--green)}
+.leak h3{font-size:1.16rem; margin:0; line-height:1.25}
+.leak .body{font-size:14.5px; color:var(--muted); margin:0}
+.leak .body b{color:var(--ink)}
+.leak .cost{font-size:13.5px; margin:0; padding-top:12px; border-top:1px dashed var(--line-strong); color:var(--muted)}
+.leak .cost .lbl{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.12em; color:var(--faint); display:block; margin-bottom:3px}
+
+/* mini bar for 41:1 */
+.ratiobar{display:flex; height:10px; border-radius:6px; overflow:hidden; margin-top:2px; border:1px solid var(--line)}
+.ratiobar .a{background:var(--red); flex:41}
+.ratiobar .b{background:var(--green); flex:1}
+.ratiokey{display:flex; gap:16px; font-size:12px; color:var(--muted); margin-top:8px}
+.ratiokey .k{display:flex; align-items:center; gap:6px}
+.ratiokey .sw{width:9px; height:9px; border-radius:2px}
+
+/* Blueprint */
+.two{display:grid; grid-template-columns:1fr 1fr; gap:20px; align-items:start}
+.block{background:var(--surface); border:1px solid var(--line); border-radius:14px; padding:24px; box-shadow:var(--shadow)}
+.block > h3{font-size:1.14rem; margin:0 0 4px}
+.block .kick{font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--brass); margin:0 0 16px}
+.ladder{display:flex; flex-direction:column; gap:10px}
+.rung{display:flex; align-items:center; gap:14px; padding:14px 16px; border:1px solid var(--line); border-radius:10px; background:var(--surface-2)}
+.rung .lv{font-family:"Fraunces",serif; font-size:13px; width:74px; flex:none; color:var(--faint)}
+.rung .tx{font-size:14px}
+.rung .tx b{display:block; color:var(--ink); font-weight:600; font-size:14.5px; margin-bottom:1px}
+.rung.high{border-color:color-mix(in srgb,var(--green) 40%,var(--line))}
+.rung.high .lv{color:var(--green)}
+.rung.disc{opacity:.85}
+
+.chan{display:flex; align-items:flex-start; gap:14px; padding:14px 0; border-bottom:1px solid var(--line)}
+.chan:last-child{border-bottom:0; padding-bottom:0}
+.chan:first-child{padding-top:0}
+.chan .txt{flex:1}
+.chan .txt b{font-size:14.5px}
+.chan .txt p{margin:2px 0 0; font-size:13px; color:var(--muted)}
+.pill{font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.08em; padding:4px 10px; border-radius:999px; white-space:nowrap; flex:none; margin-top:2px}
+.pill.high{background:var(--green-soft); color:var(--green)}
+.pill.mid{background:var(--brass-soft); color:var(--brass-ink)}
+.pill.disc{background:var(--surface-2); color:var(--faint); border:1px solid var(--line)}
+
+/* doubling model */
+.model{margin-top:20px}
+.model .cols{display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-top:16px}
+.mcol{border:1px solid var(--line); border-radius:12px; padding:18px; background:var(--surface-2)}
+.mcol.now{opacity:.92}
+.mcol h4{margin:0 0 14px; font-size:12px; text-transform:uppercase; letter-spacing:.12em; color:var(--faint); font-weight:700; font-family:"Hanken Grotesk",sans-serif}
+.mcol.prop h4{color:var(--brass-ink)}
+.metric{margin-bottom:14px}
+.metric:last-child{margin-bottom:0}
+.metric .top{display:flex; justify-content:space-between; font-size:13px; margin-bottom:6px}
+.metric .top .val{font-family:"Fraunces",serif; font-weight:600; font-variant-numeric:tabular-nums}
+.track{height:8px; border-radius:5px; background:var(--line); overflow:hidden}
+.track > span{display:block; height:100%; border-radius:5px; background:var(--brass)}
+.mcol.prop .track > span.up{background:var(--green)}
+.model .note{font-size:12px; color:var(--faint); margin:14px 0 0; font-style:italic}
+
+.measure{display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:6px}
+.mtile{border:1px solid var(--line); border-radius:12px; padding:16px; background:var(--surface-2)}
+.mtile-k{font-size:12px; color:var(--muted)}
+.mtile-v{font-family:"Fraunces",serif; font-size:1.05rem; color:var(--ink); margin-top:4px; font-weight:600}
+
+/* Campaigns tab */
+.chips{display:flex; flex-wrap:wrap; gap:9px; margin-top:4px}
+.chip{font-size:13px; padding:8px 13px; border-radius:8px; background:var(--surface-2); border:1px solid var(--line); color:var(--ink); font-variant-numeric:tabular-nums}
+.chip .i{color:var(--green); font-weight:700; margin-right:6px}
+.aud{display:flex; align-items:center; gap:12px; padding:12px 0; border-bottom:1px solid var(--line); font-size:14.5px}
+.aud:last-child{border-bottom:0}
+.aud .n{font-family:"Fraunces",serif; color:var(--brass); font-size:13px; width:26px; flex:none}
+.angle{padding:16px 0; border-bottom:1px solid var(--line)}
+.angle:last-child{border-bottom:0}
+.angle .who{font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.1em; color:var(--brass-ink); margin-bottom:4px}
+.angle .what{font-size:14.5px}
+.angle .what b{color:var(--ink)}
+
+/* timeline */
+.phases{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:4px}
+.phase{border:1px solid var(--line); border-radius:12px; padding:18px 16px; background:var(--surface); box-shadow:var(--shadow); position:relative}
+.phase .ph{font-family:"Fraunces",serif; font-size:13px; color:var(--brass); margin-bottom:2px}
+.phase .wk{font-size:11px; text-transform:uppercase; letter-spacing:.1em; color:var(--faint); margin-bottom:10px}
+.phase .d{font-size:13.5px; color:var(--muted)}
+.phase .d b{color:var(--ink)}
+
+/* CTA */
+.cta{margin-top:34px; background:var(--surface); border:1px solid var(--line-strong); border-radius:18px; padding:34px 32px;
+  box-shadow:var(--shadow); display:grid; grid-template-columns:1.4fr .9fr; gap:28px; align-items:center}
+.cta h3{font-size:clamp(1.35rem,2.4vw,1.75rem); margin:0 0 10px; line-height:1.2}
+.cta p{margin:0; color:var(--muted); font-size:1rem; max-width:46ch}
+.cta p b{color:var(--ink)}
+.cta .act{display:flex; flex-direction:column; gap:12px; align-items:flex-start}
+.window{align-self:stretch; border:1px solid var(--brass); border-radius:12px; background:var(--brass-soft); padding:16px 18px}
+.window .t{font-size:11.5px; font-weight:700; text-transform:uppercase; letter-spacing:.14em; color:var(--brass-ink)}
+.window .b{font-family:"Fraunces",serif; font-size:1.28rem; font-weight:600; margin-top:4px}
+.sign{font-size:14px; color:var(--muted)}
+.sign b{font-family:"Fraunces",serif; color:var(--ink); font-weight:600; font-size:15px}
+
+footer{border-top:1px solid var(--line); padding-block:26px 40px}
+footer .wrap{display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap}
+footer .l{font-size:13px; color:var(--faint)}
+footer .r{font-size:13px; color:var(--muted)}
+footer .r b{font-family:"Fraunces",serif; color:var(--ink); font-weight:600}
+
+@media (max-width:860px){
+  .hero-grid{grid-template-columns:1fr; gap:32px}
+  .leaks,.two,.model .cols,.cta{grid-template-columns:1fr}
+  .measure,.phases{grid-template-columns:1fr 1fr}
+}
+@media (max-width:520px){
+  .wrap{padding-inline:18px}
+  .brand .sub{display:none}
+  .measure,.phases{grid-template-columns:1fr}
+  .hero{padding-block:40px 32px}
+  .tabnav .hint{display:none}
+  .segbtn{padding:9px 15px; font-size:13.5px}
+  .angles-grid{grid-template-columns:1fr!important}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="wrap">
+    <div class="brand">
+      <span class="dot"></span>
+      <span class="nm">Tapestry of Africa</span>
+      <span class="sub">Growth Review</span>
+    </div>
+    <button class="themebtn" id="themebtn" type="button">Dark</button>
+  </div>
+</header>
+
+<nav class="tabnav">
+  <div class="wrap" role="tablist" aria-label="Sections of this review">
+    <span class="hint">3 part review</span>
+    <div class="seg">
+      <button class="segbtn" role="tab" aria-selected="true" aria-controls="p1" id="t1"><span class="no">01</span> The Leak Report</button>
+      <button class="segbtn" role="tab" aria-selected="false" aria-controls="p2" id="t2"><span class="no">02</span> The Growth Blueprint</button>
+      <button class="segbtn" role="tab" aria-selected="false" aria-controls="p3" id="t3"><span class="no">03</span> Your First Campaigns</button>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow">Prepared for Matthew &middot; Luxury Safari Growth Review</div>
+      <h1>You are paying for reach. Your buyers are shopping with <span class="hl">intent</span>.</h1>
+      <p class="lede">The goal is clear: <b>double monthly bookings by year end</b>. The blocker is not your budget. It is where the budget points, and whether you can see what it returns. This is a short read of where bookings are leaking, the system that fixes it, and the first campaigns already sketched for you.</p>
+      <div class="tag-line">
+        <span class="tag"><b>High ticket:</b> lead quality over volume</span>
+        <span class="tag"><b>Focus:</b> cost per booking, not clicks</span>
+      </div>
+    </div>
+    <aside class="signals">
+      <div class="head"><span class="t">Signals at a glance</span></div>
+      <div class="sig"><span class="k">Current Google ad mix</span><span class="v neg">41 display : 1 search</span></div>
+      <div class="sig"><span class="k">Reputation across review platforms</span><span class="v pos small">5.0 &amp; 5 / 5</span></div>
+      <div class="sig"><span class="k">Value at stake per guest</span><span class="v small">$4,699&ndash;$10,699</span></div>
+      <div class="sig"><span class="k">Cost per booking, visible today</span><span class="v neg small">Not tracked</span></div>
+    </aside>
+  </div>
+</section>
+
+<!-- PANEL 1 -->
+<main>
+<section class="panel wrap" id="p1" role="tabpanel" aria-labelledby="t1">
+  <div class="sec-head">
+    <div class="eyebrow">Diagnosis</div>
+    <h2>Where the bookings are leaking</h2>
+    <p>Four things are quietly costing you booked safaris right now. None of them need a bigger budget to fix. They need the budget pointed differently, and made measurable.</p>
+  </div>
+
+  <div class="leaks">
+    <article class="leak">
+      <div class="row1"><span class="no">Leak 01</span><span class="badge">Reach, not intent</span></div>
+      <h3>Your ad money is aimed at scrolls, not searchers</h3>
+      <p class="body">Your live search ads run roughly <b>41 display placements to a single search ad</b>. The travelers typing <b>&ldquo;luxury Kenya safari cost&rdquo;</b> or <b>&ldquo;Serengeti migration package&rdquo;</b>, the ones ready to book, barely see you. You are buying attention from people browsing, not buyers deciding.</p>
+      <div class="ratiobar"><span class="a"></span><span class="b"></span></div>
+      <div class="ratiokey"><span class="k"><span class="sw" style="background:var(--red)"></span>Display / awareness</span><span class="k"><span class="sw" style="background:var(--green)"></span>Search / intent</span></div>
+      <p class="cost"><span class="lbl">What it costs</span>Budget spent on impressions and interest, not on booking ready demand.</p>
+    </article>
+
+    <article class="leak">
+      <div class="row1"><span class="no">Leak 02</span><span class="badge">Blind on ROI</span></div>
+      <h3>You cannot see cost per booking</h3>
+      <p class="body">Tracking is spread across <b>several overlapping analytics setups</b>, and ad links pass through <b>shorteners that break the trail</b>. Clicks are visible. A booking cannot be traced back to the channel that caused it. You are steering a high ticket business on the one number that matters least.</p>
+      <p class="cost"><span class="lbl">What it costs</span>No channel is held accountable, so budget cannot move toward what actually books.</p>
+    </article>
+
+    <article class="leak">
+      <div class="row1"><span class="no">Leak 03</span><span class="badge">First seconds lost</span></div>
+      <h3>A slow first impression on a $10,000 decision</h3>
+      <p class="body">Your pages carry <b>heavy load</b> for a purchase this considered. The trust critical first seconds, the moment a paid visitor decides whether you look like the operator for a once in a lifetime trip, are spent <b>waiting</b>. Paid clicks arrive, then leave before the story lands.</p>
+      <p class="cost"><span class="lbl">What it costs</span>You pay for the click, then lose the visitor before the pitch begins.</p>
+    </article>
+
+    <article class="leak good">
+      <div class="row1"><span class="no">Leak 04</span><span class="badge good">Fuel sitting idle</span></div>
+      <h3>Your strongest assets are not working for you</h3>
+      <p class="body">A <span class="pos">5.0 reputation</span> and a strong presence on a <span class="pos">safari marketplace</span> where travelers actively compare operators are not being turned into retargeting, on page proof, or lookalike audiences built from real guests. This is your best fuel, and it is parked.</p>
+      <p class="cost"><span class="lbl">The upside</span>The trust you have already earned can feed acquisition the moment it is put to work.</p>
+    </article>
+  </div>
+</section>
+
+<!-- PANEL 2 -->
+<section class="panel wrap" id="p2" role="tabpanel" aria-labelledby="t2" hidden>
+  <div class="sec-head">
+    <div class="eyebrow">Strategy</div>
+    <h2>The system that doubles bookings</h2>
+    <p>Not more ads. A shift from buying reach to capturing intent, opened up across channels you are not using yet, and finally made measurable end to end.</p>
+  </div>
+
+  <div class="two">
+    <div class="block">
+      <p class="kick">Move 1 &middot; Intent first, three layers</p>
+      <h3>Stop chasing interest. Capture decision.</h3>
+      <div class="ladder" style="margin-top:16px">
+        <div class="rung high"><span class="lv">Capture</span><span class="tx"><b>Active searchers</b>People typing safari, destination and price together. Highest intent, booked soonest.</span></div>
+        <div class="rung"><span class="lv">Re-engage</span><span class="tx"><b>Warm shoppers</b>Visitors who explored or started a quote and did not finish. Already interested, not yet asked.</span></div>
+        <div class="rung disc"><span class="lv">Expand</span><span class="tx"><b>Lookalikes of real bookers</b>New audiences modeled on guests who actually paid, not on form fills.</span></div>
+      </div>
+    </div>
+
+    <div class="block">
+      <p class="kick">Move 2 &middot; Channels beyond Google and standard Meta</p>
+      <h3>Where high intent safari buyers actually are</h3>
+      <div style="margin-top:14px">
+        <div class="chan"><div class="txt"><b>Safari and travel marketplaces</b><p>Where travelers compare operators and request quotes. You already rank 5 / 5 here.</p></div><span class="pill high">High intent</span></div>
+        <div class="chan"><div class="txt"><b>Search plus catalog fed Performance Max</b><p>Your 28 packages become the feed, matched to live demand.</p></div><span class="pill high">High intent</span></div>
+        <div class="chan"><div class="txt"><b>Quote abandon retargeting</b><p>The warmest audience you have, currently untouched.</p></div><span class="pill high">High intent</span></div>
+        <div class="chan"><div class="txt"><b>Travel advisor and affiliate partnerships</b><p>Trusted intermediaries who place high ticket travelers.</p></div><span class="pill mid">Mid funnel</span></div>
+        <div class="chan"><div class="txt"><b>Pinterest trip planning</b><p>Where honeymoon and bucket list itineraries get saved months out.</p></div><span class="pill mid">Mid funnel</span></div>
+        <div class="chan"><div class="txt"><b>YouTube dream stage</b><p>The footage you already run, aimed at the planning window, not random reach.</p></div><span class="pill disc">Discovery</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="two" style="margin-top:20px">
+    <div class="block model">
+      <p class="kick">Move 3 &middot; The doubling math</p>
+      <h3>Doubling bookings does not require doubling spend</h3>
+      <div class="cols">
+        <div class="mcol now">
+          <h4>Today</h4>
+          <div class="metric"><div class="top"><span>Budget on intent</span><span class="val">Low</span></div><div class="track"><span style="width:22%"></span></div></div>
+          <div class="metric"><div class="top"><span>Qualified leads</span><span class="val">Baseline</span></div><div class="track"><span style="width:38%"></span></div></div>
+          <div class="metric"><div class="top"><span>Bookings</span><span class="val">1x</span></div><div class="track"><span style="width:40%"></span></div></div>
+        </div>
+        <div class="mcol prop">
+          <h4>Proposed</h4>
+          <div class="metric"><div class="top"><span>Budget on intent</span><span class="val">Shifted, not raised</span></div><div class="track"><span class="up" style="width:78%"></span></div></div>
+          <div class="metric"><div class="top"><span>Qualified leads</span><span class="val">Higher quality</span></div><div class="track"><span class="up" style="width:72%"></span></div></div>
+          <div class="metric"><div class="top"><span>Bookings</span><span class="val">2x target</span></div><div class="track"><span class="up" style="width:82%"></span></div></div>
+        </div>
+      </div>
+      <p class="note">Illustrative model of the shift, not a forecast of your figures. The real numbers come from the audit.</p>
+    </div>
+
+    <div class="block">
+      <p class="kick">Move 4 &middot; One line of sight</p>
+      <h3>The measurement layer that makes doubling trackable</h3>
+      <p style="color:var(--muted); font-size:14.5px; margin:0 0 18px">One clean view, replacing the scattered setup, so every dollar reports back in the terms that matter to you.</p>
+      <div class="measure">
+        <div class="mtile"><div class="mtile-k">Cost per</div><div class="mtile-v">Qualified lead</div></div>
+        <div class="mtile"><div class="mtile-k">Cost per</div><div class="mtile-v">Booking</div></div>
+        <div class="mtile"><div class="mtile-k">Return by</div><div class="mtile-v">Channel</div></div>
+      </div>
+      <p style="color:var(--muted); font-size:13.5px; margin:18px 0 0">When you can see which channel produces booked safaris, budget stops guessing and starts compounding.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PANEL 3 -->
+<section class="panel wrap" id="p3" role="tabpanel" aria-labelledby="t3" hidden>
+  <div class="sec-head">
+    <div class="eyebrow">Proof of work</div>
+    <h2>Your first campaigns, already sketched</h2>
+    <p>Not a promise of work to come. A first look at the intent this system goes after, the audiences it builds, and the ninety day sequence that gets you to the target.</p>
+  </div>
+
+  <div class="two">
+    <div class="block">
+      <p class="kick">High intent search themes</p>
+      <h3>The queries a ready buyer types</h3>
+      <div class="chips" style="margin-top:16px">
+        <span class="chip"><span class="i">&rsaquo;</span>luxury kenya safari cost</span>
+        <span class="chip"><span class="i">&rsaquo;</span>serengeti migration safari 2027</span>
+        <span class="chip"><span class="i">&rsaquo;</span>private tanzania safari honeymoon</span>
+        <span class="chip"><span class="i">&rsaquo;</span>family safari kenya tanzania package</span>
+        <span class="chip"><span class="i">&rsaquo;</span>best luxury safari operator east africa</span>
+        <span class="chip"><span class="i">&rsaquo;</span>uganda gorilla and safari tour price</span>
+      </div>
+      <p style="color:var(--faint); font-size:12.5px; font-style:italic; margin:16px 0 0">A sample of the intent set, not the full map.</p>
+    </div>
+
+    <div class="block">
+      <p class="kick">Audiences worth building</p>
+      <h3>Who we go after, in priority</h3>
+      <div style="margin-top:8px">
+        <div class="aud"><span class="n">01</span><span>Lookalikes modeled on <b>past guests who actually paid</b></span></div>
+        <div class="aud"><span class="n">02</span><span><b>Quote starters who did not finish</b>, retargeted with proof</span></div>
+        <div class="aud"><span class="n">03</span><span>Active <b>marketplace shoppers</b> comparing operators now</span></div>
+        <div class="aud"><span class="n">04</span><span>Past guests for <b>referrals and repeat</b> higher tier trips</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="block" style="margin-top:20px">
+    <p class="kick">Message matched to the buyer</p>
+    <h3>Ad angles by who is booking</h3>
+    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:24px; margin-top:10px" class="angles-grid">
+      <div class="angle"><div class="who">Couples &amp; honeymoon</div><div class="what">Sell the <b>once in a lifetime moment</b>, private and effortless, worth every dollar of the milestone.</div></div>
+      <div class="angle"><div class="who">Multi generation family</div><div class="what">Sell <b>the trip that finally brings everyone together</b>, handled end to end, safe and seamless.</div></div>
+      <div class="angle"><div class="who">Retiree bucket list</div><div class="what">Sell <b>the one they always promised themselves</b>, guided, unhurried, and genuinely first class.</div></div>
+    </div>
+  </div>
+
+  <div style="margin-top:30px">
+    <div class="eyebrow" style="margin-bottom:14px">The first ninety days</div>
+    <div class="phases">
+      <div class="phase"><div class="ph">Phase 1</div><div class="wk">Weeks 1&ndash;2</div><div class="d"><b>Intent capture live.</b> High intent search on, clean tracking rebuilt so every lead is traceable.</div></div>
+      <div class="phase"><div class="ph">Phase 2</div><div class="wk">Weeks 3&ndash;5</div><div class="d"><b>Re-engage the warm.</b> Quote abandoners and past visitors brought back with proof.</div></div>
+      <div class="phase"><div class="ph">Phase 3</div><div class="wk">Weeks 6&ndash;9</div><div class="d"><b>Open new channels.</b> Marketplaces and partnerships tested against real cost per booking.</div></div>
+      <div class="phase"><div class="ph">Phase 4</div><div class="wk">Weeks 10&ndash;13</div><div class="d"><b>Scale what books.</b> Pour into the winners, cut what does not, hold the doubling line.</div></div>
+    </div>
+  </div>
+
+  <div class="cta">
+    <div>
+      <h3>Give me twenty four hours.</h3>
+      <p>I can turn this into a <b>full audit of your account</b> and hand you the first intent campaigns, mapped to your packages, <b>within 24 hours</b>. If the numbers back what you have just read, you will know exactly where your next booked safari comes from.</p>
+    </div>
+    <div class="act">
+      <div class="window"><div class="t">Audit report</div><div class="b">Ready in 24 hours</div></div>
+      <div class="sign">Prepared by <b>Usman</b></div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span class="l">Tapestry of Africa &middot; Luxury Safari Growth Review</span>
+    <span class="r">Prepared by <b>Usman</b></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var tabs=[document.getElementById('t1'),document.getElementById('t2'),document.getElementById('t3')];
+  var panels=[document.getElementById('p1'),document.getElementById('p2'),document.getElementById('p3')];
+  function select(i){
+    tabs.forEach(function(t,j){t.setAttribute('aria-selected',j===i?'true':'false');});
+    panels.forEach(function(p,j){p.hidden=j!==i;});
+    var y=panels[i].getBoundingClientRect().top+window.scrollY-118;
+    window.scrollTo({top:Math.max(0,y),behavior:'smooth'});
+  }
+  tabs.forEach(function(t,i){
+    t.addEventListener('click',function(){select(i);});
+    t.addEventListener('keydown',function(e){
+      if(e.key==='ArrowRight'){e.preventDefault();tabs[(i+1)%3].focus();select((i+1)%3);}
+      if(e.key==='ArrowLeft'){e.preventDefault();tabs[(i+2)%3].focus();select((i+2)%3);}
+    });
+  });
+
+  var root=document.documentElement, btn=document.getElementById('themebtn');
+  function current(){var s=root.getAttribute('data-theme'); if(s)return s; return matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light';}
+  function apply(m){root.setAttribute('data-theme',m); btn.textContent=m==='dark'?'Light':'Dark';}
+  apply(current());
+  btn.addEventListener('click',function(){apply(current()==='dark'?'light':'dark');});
+})();
+</script>
+</body>
+</html>
